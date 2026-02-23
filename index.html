@@ -6,12 +6,23 @@
   <meta name="theme-color" content="#1976D2">
   <meta name="description" content="ChatDCuba - Chat simple y rápido">
   <title>ChatDCuba</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* ===== RESET & BASE ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { height: 100%; font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; background: #fafafa; color: #212121; font-size: 16px; line-height: 1.5; overflow: hidden; }
+    html, body { 
+      height: 100%; 
+      width: 100%;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; 
+      background: #fafafa; 
+      color: #212121; 
+      font-size: 16px; 
+      line-height: 1.5; 
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
     
-    /* ===== COLORES (Material Design) ===== */
+    /* ===== COLORES ===== */
     :root {
       --primary: #1976D2;
       --primary-dark: #1565C0;
@@ -48,10 +59,8 @@
     .flex-col { flex-direction: column; }
     .items-center { align-items: center; }
     .justify-between { justify-content: space-between; }
-    .justify-center { justify-content: center; }
     .gap-1 { gap: 8px; }
     .gap-2 { gap: 12px; }
-    .p-2 { padding: 8px; }
     .p-3 { padding: 12px; }
     .p-4 { padding: 16px; }
     .rounded { border-radius: 8px; }
@@ -60,7 +69,7 @@
     .text-sm { font-size: 14px; }
     .text-xs { font-size: 12px; }
     .truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .touch { min-height: 48px; }
+    .touch { min-height: 48px; min-width: 48px; }
 
     /* ===== LOGIN ===== */
     #login {
@@ -70,46 +79,44 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: clamp(16px, 5vw, 24px);
       z-index: 100;
+      width: 100vw;
+      height: 100vh;
     }
     .login-card {
       background: var(--bg-card);
       border-radius: 16px;
-      padding: 40px 32px;
+      padding: clamp(24px, 8vw, 40px) clamp(20px, 6vw, 32px);
       width: 100%;
       max-width: 400px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      margin: clamp(8px, 2vw, 16px);
     }
-    .login-logo {
-      text-align: center;
-      margin-bottom: 32px;
-    }
+    .login-logo { text-align: center; margin-bottom: 24px; }
     .login-logo-icon {
-      width: 72px;
-      height: 72px;
+      width: clamp(56px, 15vw, 72px);
+      height: clamp(56px, 15vw, 72px);
       background: var(--primary);
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 16px;
-      font-size: 32px;
+      font-size: clamp(24px, 6vw, 32px);
       color: white;
     }
     .login-logo h1 {
-      font-size: 24px;
+      font-size: clamp(20px, 5vw, 24px);
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 4px;
     }
-    .login-logo p {
-      color: var(--text-sec);
-      font-size: 14px;
-    }
+    .login-logo p { color: var(--text-sec); font-size: 14px; }
+    
     .input {
       width: 100%;
-      padding: 14px 16px;
+      padding: clamp(12px, 3vw, 14px) clamp(14px, 4vw, 16px);
       border: 1px solid var(--border);
       border-radius: 8px;
       background: var(--bg-input);
@@ -125,7 +132,7 @@
     }
     .btn {
       width: 100%;
-      padding: 14px;
+      padding: clamp(12px, 3vw, 14px);
       background: var(--primary);
       color: white;
       border: none;
@@ -134,32 +141,30 @@
       font-weight: 500;
       cursor: pointer;
       transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .btn:active {
-      background: var(--primary-dark);
-    }
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .btn-secondary {
-      background: var(--bg-input);
-      color: var(--text);
-    }
+    .btn:active { background: var(--primary-dark); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-secondary { background: var(--bg-input); color: var(--text); }
 
     /* ===== APP ===== */
     #app {
       display: none;
-      height: 100%;
+      height: 100vh;
+      width: 100vw;
       flex-direction: column;
       background: var(--bg);
+      max-width: 100vw;
+      overflow: hidden;
     }
     
-    /* Header */
     .header {
       background: var(--primary);
       color: white;
-      padding: 12px 16px;
+      padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -167,18 +172,19 @@
       top: 0;
       z-index: 50;
       height: 56px;
+      flex-shrink: 0;
     }
-    .header-title {
-      font-size: 18px;
-      font-weight: 600;
+    .header-title { 
+      font-size: clamp(16px, 4vw, 18px); 
+      font-weight: 600; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .header-actions {
-      display: flex;
-      gap: 8px;
-    }
+    
     .icon-btn {
-      width: 40px;
-      height: 40px;
+      width: clamp(36px, 10vw, 40px);
+      height: clamp(36px, 10vw, 40px);
       border-radius: 20px;
       border: none;
       background: rgba(255,255,255,0.2);
@@ -187,12 +193,11 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       transition: background 0.2s;
+      flex-shrink: 0;
     }
-    .icon-btn:active {
-      background: rgba(255,255,255,0.3);
-    }
+    .icon-btn:active { background: rgba(255,255,255,0.3); }
     
     /* Sidebar */
     .sidebar {
@@ -200,7 +205,8 @@
       left: 0;
       top: 0;
       bottom: 0;
-      width: 280px;
+      width: min(280px, 85vw);
+      max-width: 100%;
       background: var(--bg-card);
       border-right: 1px solid var(--border);
       z-index: 60;
@@ -210,21 +216,21 @@
       flex-direction: column;
       box-shadow: var(--shadow-lg);
     }
-    .sidebar.open {
-      transform: translateX(0);
-    }
+    .sidebar.open { transform: translateX(0); }
+    
     .sidebar-header {
-      padding: 16px;
+      padding: clamp(12px, 3vw, 16px);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 12px;
       background: var(--primary);
       color: white;
+      flex-shrink: 0;
     }
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: clamp(36px, 10vw, 40px);
+      height: clamp(36px, 10vw, 40px);
       border-radius: 20px;
       background: white;
       color: var(--primary);
@@ -232,74 +238,62 @@
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       flex-shrink: 0;
     }
-    .avatar.online {
-      border: 2px solid var(--success);
-    }
-    .user-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .user-name {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 2px;
-    }
-    .user-status {
-      font-size: 12px;
-      opacity: 0.9;
-    }
+    .avatar.online { border: 2px solid var(--success); }
+    
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-status { font-size: 12px; opacity: 0.9; white-space: nowrap; }
+    
     .sidebar-search {
-      padding: 8px 16px;
+      padding: clamp(6px, 2vw, 8px) clamp(12px, 3vw, 16px);
       border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
     }
     .sidebar-search input {
       width: 100%;
-      padding: 10px 12px;
+      padding: clamp(8px, 2vw, 10px) clamp(10px, 3vw, 12px);
       border: 1px solid var(--border);
       border-radius: 20px;
       background: var(--bg-input);
       font-size: 14px;
       color: var(--text);
     }
-    .sidebar-search input:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
+    .sidebar-search input:focus { outline: none; border-color: var(--primary); }
     
     /* Tabs */
     .tabs {
       display: flex;
       background: var(--primary);
       border-bottom: 1px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
     }
     .tab {
       flex: 1;
-      padding: 14px;
+      padding: clamp(10px, 3vw, 14px);
       text-align: center;
       color: rgba(255,255,255,0.7);
       cursor: pointer;
-      font-size: 14px;
+      font-size: clamp(12px, 3vw, 14px);
       font-weight: 500;
       border-bottom: 2px solid transparent;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-    .tab.active {
-      color: white;
-      border-bottom-color: white;
-      background: rgba(255,255,255,0.1);
-    }
+    .tab.active { color: white; border-bottom-color: white; background: rgba(255,255,255,0.1); }
+    .tab i { margin-right: 4px; }
     
     /* Chat List */
     .chat-list {
       flex: 1;
       overflow-y: auto;
       background: var(--bg-card);
+      min-height: 0;
     }
     .chat-item {
-      padding: 12px 16px;
+      padding: clamp(10px, 2vw, 12px) clamp(12px, 3vw, 16px);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -307,15 +301,12 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .chat-item:active {
-      background: var(--primary-light);
-    }
-    .chat-item.active {
-      background: var(--primary-light);
-    }
+    .chat-item:active { background: var(--primary-light); }
+    .chat-item.active { background: var(--primary-light); }
+    
     .chat-avatar {
-      width: 48px;
-      height: 48px;
+      width: clamp(44px, 12vw, 48px);
+      height: clamp(44px, 12vw, 48px);
       border-radius: 24px;
       background: var(--primary-light);
       color: var(--primary);
@@ -323,82 +314,33 @@
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       flex-shrink: 0;
       position: relative;
     }
-    .chat-avatar img {
-      width: 100%;
-      height: 100%;
-      border-radius: 24px;
-      object-fit: cover;
-    }
-    .chat-avatar.online::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      right: 2px;
-      width: 12px;
-      height: 12px;
-      background: var(--success);
-      border-radius: 50%;
-      border: 2px solid var(--bg-card);
-    }
+    .chat-avatar img { width: 100%; height: 100%; border-radius: 24px; object-fit: cover; }
+    .chat-avatar.online::after,
     .chat-avatar.offline::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      right: 2px;
-      width: 12px;
-      height: 12px;
-      background: var(--text-light);
-      border-radius: 50%;
-      border: 2px solid var(--bg-card);
+      content: ''; position: absolute; bottom: 2px; right: 2px;
+      width: clamp(10px, 3vw, 12px); height: clamp(10px, 3vw, 12px);
+      border-radius: 50%; border: 2px solid var(--bg-card);
     }
-    .chat-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .chat-name {
-      font-weight: 500;
-      font-size: 15px;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-    .chat-preview {
-      font-size: 13px;
-      color: var(--text-sec);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .chat-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 4px;
-    }
-    .chat-time {
-      font-size: 11px;
-      color: var(--text-light);
-    }
-    .badge {
-      background: var(--accent);
-      color: white;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
+    .chat-avatar.online::after { background: var(--success); }
+    .chat-avatar.offline::after { background: var(--text-light); }
+    
+    .chat-info { flex: 1; min-width: 0; }
+    .chat-name { font-weight: 500; font-size: clamp(14px, 3.5vw, 15px); color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-preview { font-size: clamp(12px, 3vw, 13px); color: var(--text-sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
     /* Stories */
     .stories-section {
-      padding: 12px 16px;
+      padding: clamp(10px, 2vw, 12px) clamp(12px, 3vw, 16px);
       border-bottom: 1px solid var(--border);
       background: var(--bg-card);
+      flex-shrink: 0;
     }
     .stories-title {
-      font-size: 13px;
+      font-size: clamp(11px, 2.5vw, 13px);
       font-weight: 600;
       color: var(--text-sec);
       margin-bottom: 12px;
@@ -407,26 +349,22 @@
     }
     .stories-list {
       display: flex;
-      gap: 12px;
+      gap: clamp(8px, 2vw, 12px);
       overflow-x: auto;
       padding-bottom: 4px;
     }
-    .stories-list::-webkit-scrollbar {
-      height: 3px;
-    }
-    .stories-list::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 2px;
-    }
+    .stories-list::-webkit-scrollbar { height: 3px; }
+    .stories-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    
     .story-item {
       flex-shrink: 0;
-      width: 72px;
+      width: clamp(64px, 18vw, 72px);
       text-align: center;
       cursor: pointer;
     }
     .story-avatar {
-      width: 64px;
-      height: 64px;
+      width: clamp(56px, 16vw, 64px);
+      height: clamp(56px, 16vw, 64px);
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       padding: 3px;
@@ -434,69 +372,37 @@
       position: relative;
     }
     .story-avatar-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
+      width: 100%; height: 100%; border-radius: 50%;
       background: var(--bg-card);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 20px;
-      color: var(--primary);
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: clamp(16px, 4vw, 20px);
+      color: var(--primary); overflow: hidden;
     }
-    .story-avatar-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .story-avatar.has-story {
-      border: 3px solid var(--accent);
-    }
-    .story-add {
-      background: var(--bg-card);
-      position: relative;
-    }
+    .story-avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
+    .story-avatar.has-story { border: 3px solid var(--accent); }
+    .story-add { background: var(--bg-card); position: relative; }
     .story-add::after {
-      content: '+';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 22px;
-      height: 22px;
-      background: var(--success);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      border: 2px solid var(--bg-card);
+      content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+      position: absolute; bottom: 0; right: 0;
+      width: clamp(18px, 5vw, 22px); height: clamp(18px, 5vw, 22px);
+      background: var(--success); color: white; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(10px, 2.5vw, 12px); border: 2px solid var(--bg-card);
     }
     .story-name {
-      font-size: 11px;
+      font-size: clamp(10px, 2.5vw, 11px);
       color: var(--text-sec);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .story-name.unseen {
-      font-weight: 600;
-      color: var(--text);
-    }
+    .story-name.unseen { font-weight: 600; color: var(--text); }
 
     /* Overlay */
     .overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(0,0,0,0.4);
-      z-index: 55;
-      display: none;
+      z-index: 55; display: none;
     }
-    .overlay.show {
-      display: block;
-    }
+    .overlay.show { display: block; }
 
     /* Chat Area */
     .chat-area {
@@ -504,19 +410,22 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      min-height: 0;
+      min-width: 0;
     }
     .chat-header {
-      padding: 12px 16px;
+      padding: clamp(10px, 2vw, 12px) clamp(12px, 3vw, 16px);
       background: var(--bg-card);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 12px;
       height: 56px;
+      flex-shrink: 0;
     }
     .chat-avatar-lg {
-      width: 40px;
-      height: 40px;
+      width: clamp(36px, 10vw, 40px);
+      height: clamp(36px, 10vw, 40px);
       border-radius: 20px;
       background: var(--primary-light);
       color: var(--primary);
@@ -524,47 +433,43 @@
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       flex-shrink: 0;
     }
-    .chat-avatar-lg img {
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      object-fit: cover;
-    }
-    .chat-details {
-      flex: 1;
-      min-width: 0;
-    }
-    .chat-details h2 {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
+    .chat-avatar-lg img { width: 100%; height: 100%; border-radius: 20px; object-fit: cover; }
+    .chat-details { flex: 1; min-width: 0; }
+    .chat-details h2 { 
+      font-size: clamp(14px, 3.5vw, 16px); 
+      font-weight: 600; 
+      color: var(--text); 
       margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .chat-details span {
-      font-size: 12px;
-      color: var(--success);
+    .chat-details span { 
+      font-size: clamp(11px, 2.5vw, 12px); 
+      color: var(--success); 
+      white-space: nowrap;
     }
-    .chat-details span.offline {
-      color: var(--text-light);
-    }
+    .chat-details span.offline { color: var(--text-light); }
+    .chat-details span i { margin-right: 4px; font-size: 8px; }
     
     .messages {
       flex: 1;
       overflow-y: auto;
-      padding: 12px;
+      padding: clamp(10px, 2vw, 12px);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: clamp(6px, 1.5vw, 8px);
       background: var(--bg);
+      min-height: 0;
     }
     .msg {
-      max-width: 80%;
-      padding: 10px 14px;
+      max-width: min(80%, 320px);
+      padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 14px);
       border-radius: 16px;
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 14px);
       position: relative;
       word-wrap: break-word;
     }
@@ -587,24 +492,21 @@
       display: block;
       cursor: pointer;
     }
-    .msg-text {
-      white-space: pre-wrap;
+    .msg-text { white-space: pre-wrap; }
+    .msg-time { 
+      font-size: clamp(9px, 2vw, 10px); 
+      opacity: 0.8; 
+      margin-top: 4px; 
+      text-align: right; 
     }
-    .msg-time {
-      font-size: 10px;
-      opacity: 0.8;
-      margin-top: 4px;
-      text-align: right;
-    }
-    .msg.own .msg-time {
-      color: rgba(255,255,255,0.9);
-    }
+    .msg.own .msg-time { color: rgba(255,255,255,0.9); }
+    
     .system-msg {
       align-self: center;
       background: var(--bg-card);
-      padding: 6px 12px;
+      padding: clamp(5px, 1vw, 6px) clamp(10px, 2vw, 12px);
       border-radius: 12px;
-      font-size: 12px;
+      font-size: clamp(11px, 2.5vw, 12px);
       color: var(--text-sec);
       text-align: center;
       max-width: 90%;
@@ -612,56 +514,49 @@
     }
     
     .typing {
-      padding: 8px 16px;
-      font-size: 12px;
+      padding: clamp(6px, 1vw, 8px) clamp(12px, 3vw, 16px);
+      font-size: clamp(11px, 2.5vw, 12px);
       color: var(--text-sec);
       display: none;
       background: var(--bg-card);
       border-top: 1px solid var(--border);
+      flex-shrink: 0;
     }
-    .typing.show {
-      display: block;
-    }
-    .typing-dots {
-      display: inline-flex;
-      gap: 3px;
-      margin-left: 6px;
-    }
+    .typing.show { display: block; }
+    .typing-dots { display: inline-flex; gap: 3px; margin-left: 6px; }
     .typing-dots span {
-      width: 6px;
-      height: 6px;
+      width: clamp(5px, 1.5vw, 6px);
+      height: clamp(5px, 1.5vw, 6px);
       background: var(--text-sec);
       border-radius: 50%;
       animation: typingBounce 1.4s infinite;
     }
-    .typing-dots span:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-    .typing-dots span:nth-child(3) {
-      animation-delay: 0.4s;
-    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes typingBounce {
       0%, 60%, 100% { transform: translateY(0); }
       30% { transform: translateY(-6px); }
     }
     
     .input-area {
-      padding: 8px 12px;
+      padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 12px);
       background: var(--bg-card);
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: clamp(6px, 1.5vw, 8px);
+      flex-shrink: 0;
     }
     .input-area input {
       flex: 1;
-      padding: 12px 16px;
+      padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 16px);
       border: 1px solid var(--border);
       border-radius: 24px;
       background: var(--bg-input);
-      font-size: 15px;
+      font-size: clamp(14px, 3vw, 15px);
       color: var(--text);
       transition: border-color 0.2s;
+      min-width: 0;
     }
     .input-area input:focus {
       outline: none;
@@ -669,8 +564,8 @@
       box-shadow: 0 0 0 2px var(--primary-light);
     }
     .send-btn {
-      width: 44px;
-      height: 44px;
+      width: clamp(40px, 11vw, 44px);
+      height: clamp(40px, 11vw, 44px);
       border-radius: 22px;
       background: var(--primary);
       color: white;
@@ -679,19 +574,15 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       transition: background 0.2s;
+      flex-shrink: 0;
     }
-    .send-btn:active {
-      background: var(--primary-dark);
-    }
-    .send-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .send-btn:active { background: var(--primary-dark); }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .attach-btn {
-      width: 44px;
-      height: 44px;
+      width: clamp(40px, 11vw, 44px);
+      height: clamp(40px, 11vw, 44px);
       border-radius: 22px;
       background: var(--bg-input);
       color: var(--text-sec);
@@ -700,12 +591,11 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
       transition: background 0.2s;
+      flex-shrink: 0;
     }
-    .attach-btn:active {
-      background: var(--border);
-    }
+    .attach-btn:active { background: var(--border); }
 
     /* Empty State */
     .empty {
@@ -715,22 +605,23 @@
       align-items: center;
       justify-content: center;
       color: var(--text-sec);
-      padding: 40px 20px;
+      padding: clamp(30px, 8vw, 40px) clamp(16px, 4vw, 20px);
       text-align: center;
     }
-    .empty-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-      opacity: 0.5;
+    .empty-icon { 
+      font-size: clamp(36px, 10vw, 48px); 
+      margin-bottom: clamp(12px, 3vw, 16px); 
+      opacity: 0.5; 
+      color: var(--primary); 
     }
-    .empty h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: var(--text);
+    .empty h3 { 
+      font-size: clamp(16px, 4vw, 18px); 
+      margin-bottom: clamp(6px, 1.5vw, 8px); 
+      color: var(--text); 
     }
-    .empty p {
-      font-size: 14px;
-      max-width: 280px;
+    .empty p { 
+      font-size: clamp(13px, 3vw, 14px); 
+      max-width: 280px; 
     }
 
     /* Bottom Nav */
@@ -738,78 +629,71 @@
       display: flex;
       background: var(--bg-card);
       border-top: 1px solid var(--border);
-      padding: 4px 0;
+      padding: clamp(2px, 1vw, 4px) 0;
       position: sticky;
       bottom: 0;
+      z-index: 40;
+      flex-shrink: 0;
     }
     .nav-item {
       flex: 1;
-      padding: 8px 0;
+      padding: clamp(6px, 1vw, 8px) 0;
       text-align: center;
       color: var(--text-sec);
       cursor: pointer;
-      font-size: 11px;
+      font-size: clamp(10px, 2.5vw, 11px);
       transition: color 0.2s;
     }
-    .nav-item.active {
-      color: var(--primary);
-    }
-    .nav-item-icon {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 2px;
+    .nav-item.active { color: var(--primary); }
+    .nav-item-icon { 
+      font-size: clamp(18px, 5vw, 20px); 
+      display: block; 
+      margin-bottom: 2px; 
     }
 
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 80px;
+      bottom: clamp(70px, 20vw, 80px);
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       background: #323232;
       color: white;
-      padding: 12px 20px;
+      padding: clamp(10px, 2vw, 12px) clamp(16px, 4vw, 20px);
       border-radius: 8px;
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 14px);
       z-index: 200;
       transition: transform 0.25s;
-      max-width: 90%;
+      max-width: min(90%, 320px);
       text-align: center;
       box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: clamp(6px, 1.5vw, 8px);
     }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-    .toast.error {
-      background: var(--error);
-    }
-    .toast.success {
-      background: var(--success);
-    }
-    .toast.warning {
-      background: var(--warning);
-    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.error { background: var(--error); }
+    .toast.success { background: var(--success); }
+    .toast.warning { background: var(--warning); color: var(--text); }
 
     /* Connection Status */
     .connection {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       background: var(--warning);
       color: white;
-      padding: 6px 16px;
-      font-size: 12px;
+      padding: clamp(4px, 1vw, 6px) clamp(12px, 3vw, 16px);
+      font-size: clamp(11px, 2.5vw, 12px);
       text-align: center;
       z-index: 100;
       display: none;
+      gap: clamp(4px, 1vw, 6px);
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .connection.show {
-      display: block;
-    }
-    .connection.offline {
-      background: var(--error);
-    }
+    .connection.show { display: flex; }
+    .connection.offline { background: var(--error); }
 
     /* Modal */
     .modal {
@@ -820,211 +704,188 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: clamp(16px, 4vw, 20px);
     }
-    .modal.show {
-      display: flex;
-    }
+    .modal.show { display: flex; }
     .modal-content {
       background: var(--bg-card);
       border-radius: 16px;
       width: 100%;
-      max-width: 400px;
-      max-height: 85vh;
+      max-width: min(400px, 95vw);
+      max-height: min(85vh, 600px);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
     }
     .modal-header {
-      padding: 16px 20px;
+      padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 20px);
       background: var(--primary);
       color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0;
     }
-    .modal-header h3 {
-      font-size: 16px;
-      font-weight: 600;
+    .modal-header h3 { 
+      font-size: clamp(14px, 3.5vw, 16px); 
+      font-weight: 600; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .modal-close {
-      width: 32px;
-      height: 32px;
+      width: clamp(28px, 7vw, 32px);
+      height: clamp(28px, 7vw, 32px);
       border-radius: 16px;
       border: none;
       background: rgba(255,255,255,0.2);
       color: white;
       cursor: pointer;
-      font-size: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: clamp(16px, 4vw, 18px);
+      flex-shrink: 0;
     }
-    .modal-body {
-      padding: 20px;
-      max-height: 60vh;
-      overflow-y: auto;
+    .modal-body { 
+      padding: clamp(16px, 4vw, 20px); 
+      max-height: 60vh; 
+      overflow-y: auto; 
+      flex: 1;
+      min-height: 0;
     }
     .modal-footer {
-      padding: 16px 20px;
+      padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 20px);
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      flex-shrink: 0;
     }
 
     /* Story View */
-    .story-view {
-      text-align: center;
-    }
+    .story-view { text-align: center; }
     .story-view-avatar {
-      width: 72px;
-      height: 72px;
+      width: clamp(64px, 18vw, 72px);
+      height: clamp(64px, 18vw, 72px);
       border-radius: 50%;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       padding: 3px;
-      margin: 0 auto 16px;
+      margin: 0 auto clamp(12px, 3vw, 16px);
     }
     .story-view-avatar-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
+      width: 100%; height: 100%; border-radius: 50%;
       background: var(--bg-card);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 24px;
-      color: var(--primary);
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: clamp(20px, 5vw, 24px);
+      color: var(--primary); overflow: hidden;
     }
-    .story-view-avatar-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .story-view-avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
+    .story-view-name { 
+      font-size: clamp(16px, 4vw, 18px); 
+      font-weight: 600; 
+      color: var(--text); 
+      margin-bottom: 4px; 
     }
-    .story-view-name {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 4px;
+    .story-view-time { 
+      font-size: clamp(11px, 2.5vw, 12px); 
+      color: var(--text-sec); 
+      margin-bottom: clamp(16px, 4vw, 20px); 
     }
-    .story-view-time {
-      font-size: 12px;
-      color: var(--text-sec);
-      margin-bottom: 20px;
-    }
-    .story-view-image {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      cursor: pointer;
+    .story-view-image { 
+      max-width: 100%; 
+      border-radius: 12px; 
+      margin-bottom: clamp(12px, 3vw, 16px); 
+      cursor: pointer; 
     }
     .story-view-text {
       background: var(--bg-input);
-      padding: 16px;
+      padding: clamp(12px, 3vw, 16px);
       border-radius: 12px;
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 14px);
       line-height: 1.6;
       color: var(--text);
       text-align: left;
-      margin-bottom: 20px;
+      margin-bottom: clamp(16px, 4vw, 20px);
       white-space: pre-wrap;
     }
-    .story-view-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
+    .story-view-actions { display: flex; gap: 10px; justify-content: center; }
     .story-action-btn {
-      padding: 10px 20px;
+      padding: clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px);
       border-radius: 8px;
       border: none;
       cursor: pointer;
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 14px);
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: clamp(4px, 1vw, 6px);
     }
-    .story-action-btn.primary {
-      background: var(--primary);
-      color: white;
-    }
-    .story-action-btn.secondary {
-      background: var(--bg-input);
-      color: var(--text);
-    }
+    .story-action-btn.primary { background: var(--primary); color: white; }
+    .story-action-btn.secondary { background: var(--bg-input); color: var(--text); }
 
     /* Create Story Form */
     .create-story-form textarea {
       width: 100%;
-      padding: 12px;
+      padding: clamp(10px, 2vw, 12px);
       border: 1px solid var(--border);
       border-radius: 8px;
       background: var(--bg-input);
       color: var(--text);
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 14px);
       font-family: inherit;
       resize: none;
-      min-height: 100px;
-      margin-bottom: 12px;
+      min-height: clamp(80px, 20vw, 100px);
+      margin-bottom: clamp(10px, 2vw, 12px);
     }
-    .create-story-form textarea:focus {
-      outline: none;
-      border-color: var(--primary);
+    .create-story-form textarea:focus { outline: none; border-color: var(--primary); }
+    .story-char-count { 
+      text-align: right; 
+      font-size: clamp(11px, 2.5vw, 12px); 
+      color: var(--text-sec); 
+      margin-bottom: clamp(10px, 2vw, 12px); 
     }
-    .story-char-count {
-      text-align: right;
-      font-size: 12px;
-      color: var(--text-sec);
-      margin-bottom: 12px;
-    }
-    .story-char-count.warning {
-      color: var(--warning);
-    }
-    .story-image-preview {
-      margin-bottom: 12px;
-      text-align: center;
-    }
-    .story-image-preview img {
-      max-width: 100%;
-      max-height: 200px;
-      border-radius: 8px;
-      object-fit: cover;
+    .story-char-count.warning { color: var(--warning); }
+    .story-image-preview { margin-bottom: clamp(10px, 2vw, 12px); text-align: center; }
+    .story-image-preview img { 
+      max-width: 100%; 
+      max-height: clamp(160px, 40vw, 200px); 
+      border-radius: 8px; 
+      object-fit: cover; 
     }
     .story-image-upload {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
+      gap: clamp(6px, 1.5vw, 8px);
+      padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px);
       background: var(--bg-input);
       border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 14px);
       color: var(--text);
-      margin-bottom: 12px;
+      margin-bottom: clamp(10px, 2vw, 12px);
     }
-    .story-image-upload input {
-      display: none;
-    }
+    .story-image-upload input { display: none; }
 
     /* Loading */
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      color: var(--text-sec);
+    .loading { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: clamp(16px, 4vw, 20px); 
+      color: var(--text-sec); 
     }
     .spinner {
-      width: 20px;
-      height: 20px;
+      width: clamp(16px, 4vw, 20px);
+      height: clamp(16px, 4vw, 20px);
       border: 2px solid var(--border);
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-right: 8px;
+      margin-right: clamp(6px, 1.5vw, 8px);
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* Image Viewer */
     .image-viewer {
@@ -1035,27 +896,25 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: clamp(16px, 4vw, 20px);
     }
-    .image-viewer.show {
-      display: flex;
-    }
-    .image-viewer img {
-      max-width: 100%;
-      max-height: 90vh;
-      border-radius: 8px;
+    .image-viewer.show { display: flex; }
+    .image-viewer img { 
+      max-width: 100%; 
+      max-height: 90vh; 
+      border-radius: 8px; 
     }
     .image-viewer-close {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 44px;
-      height: 44px;
+      top: clamp(16px, 4vw, 20px);
+      right: clamp(16px, 4vw, 20px);
+      width: clamp(40px, 11vw, 44px);
+      height: clamp(40px, 11vw, 44px);
       border-radius: 22px;
       background: rgba(255,255,255,0.2);
       border: none;
       color: white;
-      font-size: 20px;
+      font-size: clamp(18px, 4vw, 20px);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1063,14 +922,12 @@
     }
 
     /* Settings */
-    .settings-section {
-      margin-bottom: 24px;
-    }
+    .settings-section { margin-bottom: clamp(20px, 5vw, 24px); }
     .settings-section h4 {
-      font-size: 12px;
+      font-size: clamp(11px, 2.5vw, 12px);
       font-weight: 600;
       color: var(--text-sec);
-      margin-bottom: 12px;
+      margin-bottom: clamp(10px, 2vw, 12px);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -1078,93 +935,106 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
+      padding: clamp(10px, 2vw, 12px) 0;
       border-bottom: 1px solid var(--border);
     }
-    .setting-item:last-child {
-      border-bottom: none;
+    .setting-item:last-child { border-bottom: none; }
+    .setting-info h5 { 
+      font-size: clamp(13px, 3vw, 14px); 
+      font-weight: 500; 
+      color: var(--text); 
     }
-    .setting-info h5 {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .setting-info p {
-      font-size: 12px;
-      color: var(--text-sec);
+    .setting-info p { 
+      font-size: clamp(11px, 2.5vw, 12px); 
+      color: var(--text-sec); 
     }
     .toggle {
       position: relative;
-      width: 48px;
-      height: 28px;
+      width: clamp(44px, 12vw, 48px);
+      height: clamp(26px, 7vw, 28px);
       background: var(--border);
       border-radius: 14px;
       cursor: pointer;
       transition: background 0.2s;
+      flex-shrink: 0;
     }
-    .toggle.active {
-      background: var(--primary);
-    }
+    .toggle.active { background: var(--primary); }
     .toggle::after {
       content: '';
       position: absolute;
       top: 3px;
       left: 3px;
-      width: 22px;
-      height: 22px;
+      width: clamp(20px, 5vw, 22px);
+      height: clamp(20px, 5vw, 22px);
       background: white;
       border-radius: 50%;
       transition: transform 0.2s;
     }
-    .toggle.active::after {
-      transform: translateX(20px);
-    }
+    .toggle.active::after { transform: translateX(20px); }
 
-    /* Responsive */
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    
+    /* Desktop */
     @media (min-width: 768px) {
-      .sidebar {
-        transform: translateX(0);
-        position: relative;
-        border-right: 1px solid var(--border);
-        box-shadow: none;
+      .sidebar { 
+        transform: translateX(0); 
+        position: relative; 
+        border-right: 1px solid var(--border); 
+        box-shadow: none; 
+        width: 280px;
       }
-      .overlay {
-        display: none !important;
-      }
-      .menu-btn {
-        display: none;
-      }
-      .bottom-nav {
-        display: none;
-      }
-      #app {
-        flex-direction: row;
-      }
-      .chat-area {
-        flex: 1;
+      .overlay { display: none !important; }
+      .menu-btn { display: none; }
+      .bottom-nav { display: none; }
+      #app { flex-direction: row; }
+      .chat-area { flex: 1; }
+      .msg { max-width: min(70%, 400px); }
+    }
+    
+    /* Tablet */
+    @media (min-width: 481px) and (max-width: 767px) {
+      .msg { max-width: min(75%, 350px); }
+      .story-item { width: clamp(60px, 15vw, 68px); }
+      .story-avatar { width: clamp(52px, 14vw, 60px); height: clamp(52px, 14vw, 60px); }
+    }
+    
+    /* Mobile Small */
+    @media (max-width: 480px) {
+      .msg { max-width: min(85%, 280px); }
+      .login-card { padding: 24px 20px; }
+      .header { padding: 8px 12px; }
+      .chat-header { padding: 8px 12px; }
+      .story-item { width: clamp(56px, 16vw, 64px); }
+      .story-avatar { width: clamp(48px, 14vw, 56px); height: clamp(48px, 14vw, 56px); }
+      .toast { bottom: clamp(60px, 18vw, 70px); }
+    }
+    
+    /* Very Small Screens */
+    @media (max-width: 320px) {
+      .msg { max-width: 90%; padding: 8px 12px; font-size: 13px; }
+      .chat-avatar { width: 40px; height: 40px; font-size: 16px; }
+      .chat-name { font-size: 14px; }
+      .chat-preview { font-size: 12px; }
+      .btn { padding: 12px; font-size: 15px; }
+    }
+    
+    /* Landscape Mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .login-card { padding: 20px; max-width: 320px; }
+      .modal-content { max-height: 90vh; }
+      .modal-body { max-height: 50vh; }
+    }
+    
+    /* High DPI */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .avatar, .chat-avatar, .story-avatar-inner {
+        image-rendering: -webkit-optimize-contrast;
       }
     }
     
-    @media (max-width: 480px) {
-      .msg {
-        max-width: 85%;
-      }
-      .login-card {
-        padding: 32px 24px;
-      }
-      .header {
-        padding: 10px 12px;
-      }
-      .chat-header {
-        padding: 10px 12px;
-      }
-      .story-item {
-        width: 68px;
-      }
-      .story-avatar {
-        width: 60px;
-        height: 60px;
-      }
+    /* Print */
+    @media print {
+      #app, #login { display: none !important; }
     }
   </style>
 </head>
@@ -1174,19 +1044,25 @@
   <div id="login">
     <div class="login-card">
       <div class="login-logo">
-        <div class="login-logo-icon">💬</div>
+        <div class="login-logo-icon">
+          <i class="fas fa-comments"></i>
+        </div>
         <h1>ChatDCuba</h1>
         <p>Conecta con la comunidad</p>
       </div>
       <input type="text" id="username" class="input" placeholder="Tu nombre" maxlength="20" autocomplete="off">
-      <button class="btn" onclick="app.login()">Entrar</button>
+      <button class="btn" onclick="app.login()">
+        <i class="fas fa-sign-in-alt"></i>Entrar
+      </button>
     </div>
   </div>
 
   <!-- App -->
   <div id="app">
     <!-- Connection Status -->
-    <div class="connection" id="connection">Sin conexión</div>
+    <div class="connection" id="connection">
+      <i class="fas fa-wifi"></i><span>Sin conexión</span>
+    </div>
     
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
@@ -1194,9 +1070,13 @@
         <div class="avatar online" id="user-avatar">U</div>
         <div class="user-info">
           <div class="user-name" id="user-name">Usuario</div>
-          <div class="user-status">En línea</div>
+          <div class="user-status">
+            <i class="fas fa-circle"></i> En línea
+          </div>
         </div>
-        <button class="icon-btn" onclick="app.logout()">⋮</button>
+        <button class="icon-btn" onclick="app.logout()" title="Salir">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
       </div>
       <div class="sidebar-search">
         <input type="text" id="search" placeholder="Buscar..." oninput="app.filter()">
@@ -1204,8 +1084,12 @@
       
       <!-- Tabs -->
       <div class="tabs">
-        <div class="tab active" data-tab="chats" onclick="app.switchTab('chats')">Chats</div>
-        <div class="tab" data-tab="stories" onclick="app.switchTab('stories')">Historias</div>
+        <div class="tab active" data-tab="chats" onclick="app.switchTab('chats')">
+          <i class="fas fa-comment"></i>Chats
+        </div>
+        <div class="tab" data-tab="stories" onclick="app.switchTab('stories')">
+          <i class="fas fa-circle"></i>Historias
+        </div>
       </div>
       
       <!-- Stories Section -->
@@ -1214,7 +1098,9 @@
         <div class="stories-list" id="stories-list">
           <div class="story-item" onclick="app.openCreateStory()">
             <div class="story-avatar story-add">
-              <div class="story-avatar-inner" id="my-story-avatar">+</div>
+              <div class="story-avatar-inner" id="my-story-avatar">
+                <i class="fas fa-plus"></i>
+              </div>
             </div>
             <div class="story-name">Tu historia</div>
           </div>
@@ -1231,22 +1117,32 @@
     <!-- Chat Area -->
     <main class="chat-area">
       <header class="header">
-        <button class="icon-btn menu-btn" onclick="app.toggleSidebar()">☰</button>
+        <button class="icon-btn menu-btn" onclick="app.toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
         <span class="header-title">ChatDCuba</span>
-        <button class="icon-btn" onclick="app.openSettings()">⚙</button>
+        <button class="icon-btn" onclick="app.openSettings()" title="Ajustes">
+          <i class="fas fa-cog"></i>
+        </button>
       </header>
       
       <div class="chat-header" id="chat-header" style="display:none">
-        <div class="chat-avatar-lg" id="chat-avatar">C</div>
+        <div class="chat-avatar-lg" id="chat-avatar">
+          <i class="fas fa-users"></i>
+        </div>
         <div class="chat-details">
           <h2 id="chat-title">Selecciona un chat</h2>
-          <span id="chat-status">Bienvenido</span>
+          <span id="chat-status">
+            <i class="fas fa-info-circle"></i> Bienvenido
+          </span>
         </div>
       </div>
       
       <div class="messages" id="messages">
         <div class="empty" id="empty">
-          <div class="empty-icon">💬</div>
+          <div class="empty-icon">
+            <i class="fas fa-comments"></i>
+          </div>
           <h3>Bienvenido</h3>
           <p>Selecciona una conversación para comenzar</p>
         </div>
@@ -1257,25 +1153,29 @@
       </div>
       
       <div class="input-area" id="input-area" style="display:none">
-        <button class="attach-btn" onclick="app.attachFile()">+</button>
+        <button class="attach-btn" onclick="app.attachFile()" title="Adjuntar">
+          <i class="fas fa-paperclip"></i>
+        </button>
         <input type="text" id="msg-input" placeholder="Escribe un mensaje..." autocomplete="off">
-        <button class="send-btn" onclick="app.send()">➤</button>
+        <button class="send-btn" onclick="app.send()" title="Enviar">
+          <i class="fas fa-paper-plane"></i>
+        </button>
       </div>
     </main>
     
     <!-- Bottom Nav (Mobile) -->
     <nav class="bottom-nav">
       <div class="nav-item active" onclick="app.toggleSidebar()">
-        <span class="nav-item-icon">💬</span>Chats
+        <i class="fas fa-comment nav-item-icon"></i>Chats
       </div>
       <div class="nav-item" onclick="app.openCreateStory()">
-        <span class="nav-item-icon">+</span>Historia
+        <i class="fas fa-plus-circle nav-item-icon"></i>Historia
       </div>
       <div class="nav-item" onclick="app.openSettings()">
-        <span class="nav-item-icon">⚙</span>Ajustes
+        <i class="fas fa-cog nav-item-icon"></i>Ajustes
       </div>
       <div class="nav-item" onclick="app.logout()">
-        <span class="nav-item-icon">🚪</span>Salir
+        <i class="fas fa-sign-out-alt nav-item-icon"></i>Salir
       </div>
     </nav>
   </div>
@@ -1288,7 +1188,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 id="story-modal-title">Historia</h3>
-        <button class="modal-close" onclick="app.closeStoryModal()">✕</button>
+        <button class="modal-close" onclick="app.closeStoryModal()">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
       <div class="modal-body" id="story-modal-body"></div>
     </div>
@@ -1298,8 +1200,12 @@
   <div class="modal" id="settings-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Ajustes</h3>
-        <button class="modal-close" onclick="app.closeSettings()">✕</button>
+        <h3>
+          <i class="fas fa-cog"></i> Ajustes
+        </h3>
+        <button class="modal-close" onclick="app.closeSettings()">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
       <div class="modal-body">
         <div class="settings-section">
@@ -1326,27 +1232,33 @@
           <h4>Cuenta</h4>
           <div class="setting-item">
             <div class="setting-info">
-              <h5>Usuario</h5>
+              <h5>
+                <i class="fas fa-user"></i> Usuario
+              </h5>
               <p id="settings-username">-</p>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="app.closeSettings()">Cerrar</button>
+        <button class="btn btn-secondary" onclick="app.closeSettings()">
+          <i class="fas fa-times"></i>Cerrar
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Image Viewer -->
   <div class="image-viewer" id="image-viewer">
-    <button class="image-viewer-close" onclick="app.closeImageViewer()">✕</button>
+    <button class="image-viewer-close" onclick="app.closeImageViewer()">
+      <i class="fas fa-times"></i>
+    </button>
     <img id="image-viewer-img" src="" alt="Imagen">
   </div>
 
   <script>
-    // ===== CONFIGURACIÓN =====
-    const API = 'https://dlhuhbmpcojhcxosxlax.supabase.co';
+    // ===== CONFIGURACIÓN CON TUS CREDENCIALES =====
+    const API = 'https://dlhuhbmpcojhcxosxlax.supabase.co/rest/v1';
     const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsaHVoYm1wY29qaGN4b3N4bGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NzAyMzgsImV4cCI6MjA4NzQ0NjIzOH0.2_RNsO3kUfCoNfpMdPt9v7HIUwo_bycPLL6BG5hAc1I';
     
     // ===== APLICACIÓN =====
@@ -1356,41 +1268,51 @@
       isGroup: false,
       users: {},
       stories: {},
-      typing: null,
+      typingTimeout: null,
       dark: localStorage.getItem('theme') === 'dark',
       sound: localStorage.getItem('sound') !== 'false',
       
       // Inicializar
-      init() {
+      init: function() {
         if (this.dark) document.documentElement.setAttribute('data-dark', '');
         this.loadUser();
         this.setupEvents();
         this.checkConnection();
-        setInterval(() => this.checkConnection(), 30000);
-        setInterval(() => this.loadStories(), 60000);
+        setInterval(this.checkConnection.bind(this), 30000);
+        setInterval(this.loadStories.bind(this), 60000);
       },
       
       // Cargar usuario guardado
-      loadUser() {
+      loadUser: function() {
         const saved = localStorage.getItem('chatdcuba_user');
         if (saved) {
-          this.user = JSON.parse(saved);
-          this.showApp();
-          this.syncUser();
-          this.loadChats();
-          this.loadStories();
+          try {
+            this.user = JSON.parse(saved);
+            this.showApp();
+            this.syncUser();
+            this.loadChats();
+            this.loadStories();
+          } catch(e) {
+            console.error('Error loading user:', e);
+            localStorage.removeItem('chatdcuba_user');
+          }
         }
       },
       
       // Login
-      async login() {
-        const name = document.getElementById('username').value.trim();
-        if (name.length < 2) return this.toast('Nombre muy corto', 'error');
+      login: async function() {
+        const nameInput = document.getElementById('username');
+        const name = nameInput.value.trim();
+        
+        if (name.length < 2) {
+          this.toast('Nombre muy corto', 'error');
+          return;
+        }
         
         this.user = {
-          id: this.id(name),
+          id: this.sanitizeId(name),
           name: name,
-          avatar: name[0].toUpperCase(),
+          avatar: name.charAt(0).toUpperCase(),
           online: true,
           last: Date.now()
         };
@@ -1404,10 +1326,10 @@
       },
       
       // Sincronizar usuario
-      async syncUser() {
+      syncUser: async function() {
         if (!this.user) return;
         try {
-          await fetch(API + '/users', {
+          const response = await fetch(API + '/users', {
             method: 'POST',
             headers: {
               'apikey': KEY,
@@ -1422,13 +1344,17 @@
               last_seen: new Date().toISOString()
             })
           });
+          
+          if (!response.ok) {
+            console.log('Sync user failed');
+          }
         } catch(e) {
           console.log('Sync offline');
         }
       },
       
       // Logout
-      async logout() {
+      logout: async function() {
         if (this.user) {
           try {
             await fetch(API + '/users?id=eq.' + this.user.id, {
@@ -1442,73 +1368,92 @@
                 last_seen: new Date().toISOString()
               })
             });
-          } catch(e) {}
+          } catch(e) {
+            console.log('Logout failed');
+          }
         }
         localStorage.removeItem('chatdcuba_user');
         location.reload();
       },
       
       // Mostrar app
-      showApp() {
+      showApp: function() {
         document.getElementById('login').style.display = 'none';
         document.getElementById('app').style.display = 'flex';
         document.getElementById('user-name').textContent = this.user.name;
         document.getElementById('user-avatar').textContent = this.user.avatar;
-        document.getElementById('my-story-avatar').textContent = this.user.avatar;
+        document.getElementById('my-story-avatar').innerHTML = '<i class="fas fa-plus"></i>';
         document.getElementById('settings-username').textContent = this.user.name;
       },
       
       // Configurar eventos
-      setupEvents() {
+      setupEvents: function() {
+        const self = this;
         const input = document.getElementById('msg-input');
-        input.addEventListener('keypress', e => {
-          if (e.key === 'Enter') this.send();
-        });
-        input.addEventListener('input', () => this.typingInd());
         
-        document.addEventListener('visibilitychange', () => {
-          if (this.user) this.syncUser();
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') self.send();
         });
         
-        window.addEventListener('online', () => {
+        input.addEventListener('input', function() {
+          self.typingInd();
+        });
+        
+        document.addEventListener('visibilitychange', function() {
+          if (self.user) self.syncUser();
+        });
+        
+        window.addEventListener('online', function() {
           document.getElementById('connection').classList.remove('show', 'offline');
-          this.loadChats();
-          this.flushQueue();
+          self.loadChats();
+          self.flushQueue();
         });
         
-        window.addEventListener('offline', () => {
-          document.getElementById('connection').classList.add('show', 'offline');
-          document.getElementById('connection').textContent = 'Sin conexión - Modo offline';
+        window.addEventListener('offline', function() {
+          const conn = document.getElementById('connection');
+          conn.classList.add('show', 'offline');
+          conn.innerHTML = '<i class="fas fa-wifi"></i><span>Sin conexión - Modo offline</span>';
         });
         
         // Cerrar modales al hacer click fuera
-        document.querySelectorAll('.modal').forEach(modal => {
-          modal.addEventListener('click', e => {
-            if (e.target === modal) modal.classList.remove('show');
+        document.querySelectorAll('.modal').forEach(function(modal) {
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+              modal.classList.remove('show');
+            }
           });
+        });
+        
+        // Ajustar viewport al resize
+        window.addEventListener('resize', function() {
+          if (window.innerWidth >= 768) {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+          }
         });
       },
       
       // Verificar conexión
-      checkConnection() {
+      checkConnection: function() {
         const online = navigator.onLine;
         const el = document.getElementById('connection');
+        
         if (!online) {
           el.classList.add('show', 'offline');
-          el.textContent = 'Sin conexión';
+          el.innerHTML = '<i class="fas fa-wifi"></i><span>Sin conexión</span>';
         } else if (el.classList.contains('show')) {
           el.classList.remove('show', 'offline');
         }
       },
       
       // Toggle sidebar
-      toggleSidebar() {
+      toggleSidebar: function() {
         document.getElementById('sidebar').classList.toggle('open');
         document.getElementById('overlay').classList.toggle('show');
       },
       
       // Toggle tema
-      toggleTheme() {
+      toggleTheme: function() {
         this.dark = !this.dark;
         if (this.dark) {
           document.documentElement.setAttribute('data-dark', '');
@@ -1520,16 +1465,19 @@
       },
       
       // Toggle sonido
-      toggleSound() {
+      toggleSound: function() {
         this.sound = !this.sound;
         localStorage.setItem('sound', this.sound);
         document.getElementById('sound-toggle').classList.toggle('active', this.sound);
         this.toast(this.sound ? 'Sonido activado' : 'Sonido desactivado', 'success');
       },
       
-      // Toggle sidebar
-      switchTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      // Cambiar tab
+      switchTab: function(tab) {
+        const self = this;
+        document.querySelectorAll('.tab').forEach(function(t) {
+          t.classList.remove('active');
+        });
         document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
         
         if (tab === 'stories') {
@@ -1542,110 +1490,141 @@
       },
       
       // Toast notification
-      toast(msg, type) {
+      toast: function(msg, type) {
         const t = document.getElementById('toast');
-        t.textContent = msg;
+        let icon = '<i class="fas fa-info-circle"></i>';
+        if (type === 'error') icon = '<i class="fas fa-exclamation-circle"></i>';
+        if (type === 'success') icon = '<i class="fas fa-check-circle"></i>';
+        if (type === 'warning') icon = '<i class="fas fa-exclamation-triangle"></i>';
+        
+        t.innerHTML = icon + '<span>' + msg + '</span>';
         t.className = 'toast ' + (type || '') + ' show';
-        setTimeout(() => t.classList.remove('show'), 2500);
+        
+        setTimeout(function() {
+          t.classList.remove('show');
+        }, 2500);
       },
       
       // Sanitize ID
-      id(str) {
+      sanitizeId: function(str) {
         return str.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
       },
       
       // Escape HTML
-      escape(s) {
+      escapeHtml: function(s) {
         if (!s) return '';
-        return s.replace(/[&<>"']/g, c => ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#39;'
-        })[c]);
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
       },
       
       // ===== CHATS =====
       
       // Cargar chats
-      async loadChats() {
+      loadChats: async function() {
         try {
-          const res = await fetch(API + '/users?order=last_seen.desc', {
+          const response = await fetch(API + '/users?order=last_seen.desc', {
             headers: { 'apikey': KEY }
           });
-          const users = await res.json();
-          this.users = users.reduce((acc, u) => {
-            acc[u.id] = u;
-            return acc;
-          }, {});
+          
+          if (!response.ok) throw new Error('Failed to load users');
+          
+          const users = await response.json();
+          this.users = {};
+          users.forEach(function(u) {
+            this.users[u.id] = u;
+          }.bind(this));
+          
           this.renderChats();
         } catch(e) {
+          console.error('Error loading chats:', e);
           this.toast('Error al cargar', 'error');
         }
       },
       
       // Renderizar chats
-      renderChats() {
+      renderChats: function() {
+        const self = this;
         const list = document.getElementById('chat-list');
+        
         list.innerHTML = '<div class="chat-item active" onclick="app.selectChat(\'general\',\'Sala General\',true)">' +
-          '<div class="chat-avatar">👥</div>' +
+          '<div class="chat-avatar"><i class="fas fa-users"></i></div>' +
           '<div class="chat-info">' +
           '<div class="chat-name">Sala General</div>' +
           '<div class="chat-preview">Chat público</div>' +
           '</div></div>';
         
-        Object.values(this.users).forEach(u => {
-          if (u.id === this.user?.id) return;
-          const chatId = [this.user.id, u.id].sort().join('_');
-          list.innerHTML += '<div class="chat-item" onclick="app.selectChat(\'' + chatId + '\',\'' + this.escape(u.username) + '\',false)">' +
-            '<div class="chat-avatar ' + (u.online ? 'online' : 'offline') + '">' + this.escape(u.avatar || u.username[0].toUpperCase()) + '</div>' +
+        Object.keys(this.users).forEach(function(userId) {
+          const u = self.users[userId];
+          if (u.id === self.user?.id) return;
+          
+          const chatId = [self.user.id, u.id].sort().join('_');
+          const statusClass = u.online ? 'online' : 'offline';
+          const statusText = u.online ? 'En línea' : 'Offline';
+          
+          list.innerHTML += '<div class="chat-item" onclick="app.selectChat(\'' + chatId + '\',\'' + self.escapeHtml(u.username) + '\',false)">' +
+            '<div class="chat-avatar ' + statusClass + '">' + self.escapeHtml(u.avatar || u.username.charAt(0).toUpperCase()) + '</div>' +
             '<div class="chat-info">' +
-            '<div class="chat-name">' + this.escape(u.username) + '</div>' +
-            '<div class="chat-preview">' + (u.online ? 'En línea' : 'Offline') + '</div>' +
+            '<div class="chat-name">' + self.escapeHtml(u.username) + '</div>' +
+            '<div class="chat-preview">' + statusText + '</div>' +
             '</div></div>';
         });
       },
       
       // Filtrar chats
-      filter() {
+      filter: function() {
         const q = document.getElementById('search').value.toLowerCase();
-        document.querySelectorAll('.chat-item').forEach(el => {
+        document.querySelectorAll('.chat-item').forEach(function(el) {
           const name = el.querySelector('.chat-name').textContent.toLowerCase();
           el.style.display = name.includes(q) ? 'flex' : 'none';
         });
       },
       
       // Seleccionar chat
-      async selectChat(chatId, name, isGroup) {
+      selectChat: async function(chatId, name, isGroup) {
+        const self = this;
         this.chat = chatId;
         this.isGroup = isGroup;
         
         // UI update
-        document.querySelectorAll('.chat-item').forEach(e => e.classList.remove('active'));
-        if (event && event.closest) {
-          event.closest('.chat-item')?.classList.add('active');
+        document.querySelectorAll('.chat-item').forEach(function(e) {
+          e.classList.remove('active');
+        });
+        
+        if (event && event.currentTarget) {
+          event.currentTarget.classList.add('active');
         }
         
         const avatarEl = document.getElementById('chat-avatar');
         if (isGroup) {
-          avatarEl.textContent = '👥';
-          avatarEl.innerHTML = '';
+          avatarEl.innerHTML = '<i class="fas fa-users"></i>';
         } else {
-          const userId = Object.keys(this.users).find(k => this.users[k].username === name);
+          const userId = Object.keys(this.users).find(function(k) {
+            return self.users[k].username === name;
+          });
           const user = this.users[userId];
-          if (user?.avatar && user.avatar.startsWith('http')) {
+          if (user && user.avatar && user.avatar.startsWith('http')) {
             avatarEl.innerHTML = '<img src="' + user.avatar + '" alt="' + name + '">';
           } else {
-            avatarEl.textContent = (user?.avatar || name[0].toUpperCase());
+            avatarEl.textContent = (user ? user.avatar : '') || name.charAt(0).toUpperCase();
           }
         }
         
         document.getElementById('chat-title').textContent = name;
-        document.getElementById('chat-status').textContent = isGroup ? 'Sala pública' : 
-          (this.users[Object.keys(this.users).find(k => this.users[k].username === name)]?.online ? 'En línea' : 'Offline');
-        document.getElementById('chat-status').className = isGroup ? '' : 
-          (this.users[Object.keys(this.users).find(k => this.users[k].username === name)]?.online ? '' : 'offline');
+        
+        if (isGroup) {
+          document.getElementById('chat-status').innerHTML = '<i class="fas fa-users"></i> Sala pública';
+        } else {
+          const userId = Object.keys(this.users).find(function(k) {
+            return self.users[k].username === name;
+          });
+          const isOnline = this.users[userId] && this.users[userId].online;
+          document.getElementById('chat-status').innerHTML = isOnline ? 
+            '<i class="fas fa-circle"></i> En línea' : 
+            '<i class="fas fa-circle"></i> Offline';
+          document.getElementById('chat-status').className = isOnline ? '' : 'offline';
+        }
+        
         document.getElementById('empty').style.display = 'none';
         document.getElementById('chat-header').style.display = 'flex';
         document.getElementById('input-area').style.display = 'flex';
@@ -1659,60 +1638,69 @@
       },
       
       // Cargar mensajes
-      async loadMessages() {
+      loadMessages: async function() {
         if (!this.chat) return;
+        
         const container = document.getElementById('messages');
         container.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
         
         try {
           const url = API + '/messages?chat_id=eq.' + this.chat + '&order=created_at.asc&limit=50';
-          const res = await fetch(url, { headers: { 'apikey': KEY } });
-          const msgs = await res.json();
+          const response = await fetch(url, { headers: { 'apikey': KEY } });
+          
+          if (!response.ok) throw new Error('Failed to load messages');
+          
+          const msgs = await response.json();
           
           container.innerHTML = '';
           let lastDate = '';
           
-          msgs.forEach(m => {
+          msgs.forEach(function(m) {
             const date = new Date(m.created_at).toLocaleDateString();
             if (date !== lastDate) {
-              container.innerHTML += '<div class="system-msg">' + date + '</div>';
+              container.innerHTML += '<div class="system-msg">' + self.escapeHtml(date) + '</div>';
               lastDate = date;
             }
-            container.innerHTML += this.renderMsg(m);
-          });
+            container.innerHTML += self.renderMsg(m);
+          }.bind(this));
           
           container.scrollTop = container.scrollHeight;
           
           // Mark as read
           if (!this.isGroup) this.markRead();
         } catch(e) {
-          container.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><h3>Error</h3><p>No se pudieron cargar los mensajes</p></div>';
+          console.error('Error loading messages:', e);
+          container.innerHTML = '<div class="empty"><div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div><h3>Error</h3><p>No se pudieron cargar los mensajes</p></div>';
           this.toast('Error de conexión', 'error');
         }
       },
       
       // Renderizar mensaje
-      renderMsg(m) {
+      renderMsg: function(m) {
         if (m.type === 'system') {
-          return '<div class="system-msg">' + this.escape(m.text) + '</div>';
+          return '<div class="system-msg"><i class="fas fa-info-circle"></i> ' + this.escapeHtml(m.text) + '</div>';
         }
+        
         const own = m.user_id === this.user?.id;
         const time = new Date(m.created_at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
         let content = '';
+        
         if (m.image) {
           content += '<img src="' + m.image + '" class="msg-img" onclick="app.viewImg(\'' + m.image + '\')">';
         }
         if (m.text) {
-          content += '<div class="msg-text">' + this.escape(m.text) + '</div>';
+          content += '<div class="msg-text">' + this.escapeHtml(m.text) + '</div>';
         }
+        
         return '<div class="msg ' + (own ? 'own' : 'other') + '">' + content + 
           '<div class="msg-time">' + time + '</div></div>';
       },
       
       // Enviar mensaje
-      async send() {
+      send: async function() {
         const input = document.getElementById('msg-input');
         const text = input.value.trim();
+        
         if (!text || !this.chat) return;
         
         const msg = {
@@ -1724,7 +1712,7 @@
         };
         
         try {
-          await fetch(API + '/messages', {
+          const response = await fetch(API + '/messages', {
             method: 'POST',
             headers: {
               'apikey': KEY,
@@ -1732,11 +1720,18 @@
             },
             body: JSON.stringify(msg)
           });
-          input.value = '';
-          document.getElementById('typing').classList.remove('show');
-          this.loadMessages();
+          
+          if (response.ok) {
+            input.value = '';
+            document.getElementById('typing').classList.remove('show');
+            this.loadMessages();
+          } else {
+            throw new Error('Failed to send');
+          }
         } catch(e) {
+          console.error('Error sending message:', e);
           this.toast('No se pudo enviar', 'error');
+          
           // Queue for retry
           let queue = JSON.parse(localStorage.getItem('msg_queue') || '[]');
           queue.push(msg);
@@ -1745,43 +1740,46 @@
       },
       
       // Indicador de escritura
-      async typingInd() {
+      typingInd: function() {
+        const self = this;
         if (!this.chat || !this.user) return;
-        clearTimeout(this.typing);
-        try {
-          await fetch(API + '/typing', {
-            method: 'POST',
-            headers: {
-              'apikey': KEY,
-              'Content-Type': 'application/json',
-              'Prefer': 'resolution=merge-duplicates'
-            },
-            body: JSON.stringify({
-              chat_id: this.chat,
-              user_id: this.user.id,
-              username: this.user.name,
-              timestamp: new Date().toISOString()
-            })
-          });
-        } catch(e) {}
-        this.typing = setTimeout(async () => {
-          try {
-            await fetch(API + '/typing?chat_id=eq.' + this.chat + '&user_id=eq.' + this.user.id, {
-              method: 'DELETE',
-              headers: { 'apikey': KEY }
-            });
-          } catch(e) {}
+        
+        clearTimeout(this.typingTimeout);
+        
+        fetch(API + '/typing', {
+          method: 'POST',
+          headers: {
+            'apikey': KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify({
+            chat_id: this.chat,
+            user_id: this.user.id,
+            username: this.user.name,
+            timestamp: new Date().toISOString()
+          })
+        }).catch(function() {});
+        
+        this.typingTimeout = setTimeout(function() {
+          fetch(API + '/typing?chat_id=eq.' + self.chat + '&user_id=eq.' + self.user.id, {
+            method: 'DELETE',
+            headers: { 'apikey': KEY }
+          }).catch(function() {});
         }, 2000);
       },
       
       // Marcar como leído
-      async markRead() {
+      markRead: async function() {
         try {
-          const res = await fetch(API + '/messages?chat_id=eq.' + this.chat + '&not.user_id=eq.' + this.user.id, {
+          const response = await fetch(API + '/messages?chat_id=eq.' + this.chat + '&not.user_id=eq.' + this.user.id, {
             headers: { 'apikey': KEY }
           });
-          const msgs = await res.json();
-          for (const m of msgs) {
+          
+          const msgs = await response.json();
+          
+          for (let i = 0; i < msgs.length; i++) {
+            const m = msgs[i];
             const read = m.read_by || [];
             if (!read.includes(this.user.id)) {
               read.push(this.user.id);
@@ -1795,35 +1793,38 @@
               });
             }
           }
-        } catch(e) {}
+        } catch(e) {
+          console.log('Mark read failed');
+        }
       },
       
       // Adjuntar archivo
-      attachFile() {
+      attachFile: function() {
+        const self = this;
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
-        input.onchange = async e => {
+        
+        input.onchange = async function(e) {
           const file = e.target.files[0];
-          if (!file || !this.chat) return;
+          if (!file || !self.chat) return;
           
-          this.toast('Subiendo imagen...', 'warning');
+          self.toast('Subiendo imagen...', 'warning');
           
-          // Upload to Supabase Storage
-          const fileName = 'messages/' + this.user.id + '_' + Date.now() + '_' + file.name;
-          const { error, data } = await this.uploadToStorage(fileName, file);
+          const fileName = 'messages/' + self.user.id + '_' + Date.now() + '_' + file.name;
+          const result = await self.uploadToStorage(fileName, file);
           
-          if (error) {
-            this.toast('Error al subir', 'error');
+          if (result.error) {
+            self.toast('Error al subir', 'error');
             return;
           }
           
           const publicUrl = API.replace('/rest/v1', '/storage/v1/object/public/') + '/' + fileName;
           
           const msg = {
-            chat_id: this.chat,
-            user_id: this.user.id,
-            username: this.user.name,
+            chat_id: self.chat,
+            user_id: self.user.id,
+            username: self.user.name,
             image: publicUrl,
             created_at: new Date().toISOString()
           };
@@ -1837,16 +1838,17 @@
             body: JSON.stringify(msg)
           });
           
-          this.loadMessages();
-          this.toast('Imagen enviada', 'success');
+          self.loadMessages();
+          self.toast('Imagen enviada', 'success');
         };
+        
         input.click();
       },
       
       // Upload helper
-      async uploadToStorage(path, file) {
+      uploadToStorage: async function(path, file) {
         try {
-          const res = await fetch(API.replace('/rest/v1', '/storage/v1/object/messages/') + path, {
+          const response = await fetch(API.replace('/rest/v1', '/storage/v1/object/messages/') + path, {
             method: 'PUT',
             headers: {
               'apikey': KEY,
@@ -1854,10 +1856,11 @@
             },
             body: file
           });
-          if (res.ok) {
-            return { data: { path }, error: null };
+          
+          if (response.ok) {
+            return { data: { path: path }, error: null };
           } else {
-            return { data: null, error: await res.text() };
+            return { data: null, error: await response.text() };
           }
         } catch(e) {
           return { data: null, error: e.message };
@@ -1865,22 +1868,22 @@
       },
       
       // Ver imagen
-      viewImg(url) {
+      viewImg: function(url) {
         document.getElementById('image-viewer-img').src = url;
         document.getElementById('image-viewer').classList.add('show');
       },
       
-      closeImageViewer() {
+      closeImageViewer: function() {
         document.getElementById('image-viewer').classList.remove('show');
         document.getElementById('image-viewer-img').src = '';
       },
       
       // Flush message queue
-      async flushQueue() {
+      flushQueue: async function() {
         const queue = JSON.parse(localStorage.getItem('msg_queue') || '[]');
         if (queue.length === 0) return;
         
-        for (const msg of queue) {
+        for (let i = 0; i < queue.length; i++) {
           try {
             await fetch(API + '/messages', {
               method: 'POST',
@@ -1888,9 +1891,11 @@
                 'apikey': KEY,
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify(msg)
+              body: JSON.stringify(queue[i])
             });
-          } catch(e) {}
+          } catch(e) {
+            console.log('Queue message failed');
+          }
         }
         
         localStorage.removeItem('msg_queue');
@@ -1900,16 +1905,20 @@
       // ===== HISTORIAS =====
       
       // Cargar historias
-      async loadStories() {
+      loadStories: async function() {
         try {
-          const res = await fetch(API + '/stories?order=created_at.desc', {
+          const response = await fetch(API + '/stories?order=created_at.desc', {
             headers: { 'apikey': KEY }
           });
-          const stories = await res.json();
-          this.stories = stories.reduce((acc, s) => {
-            acc[s.id] = s;
-            return acc;
-          }, {});
+          
+          if (!response.ok) throw new Error('Failed to load stories');
+          
+          const stories = await response.json();
+          this.stories = {};
+          stories.forEach(function(s) {
+            this.stories[s.id] = s;
+          }.bind(this));
+          
           this.renderStories();
         } catch(e) {
           console.log('Error loading stories');
@@ -1917,8 +1926,10 @@
       },
       
       // Renderizar historias
-      renderStories() {
+      renderStories: function() {
+        const self = this;
         const list = document.getElementById('stories-list');
+        
         // Keep "Tu historia" item
         const myStory = list.querySelector('.story-item');
         list.innerHTML = '';
@@ -1927,20 +1938,20 @@
         const now = Date.now();
         const twentyFourHours = 24 * 60 * 60 * 1000;
         
-        Object.keys(this.stories).forEach(storyId => {
-          const story = this.stories[storyId];
+        Object.keys(this.stories).forEach(function(storyId) {
+          const story = self.stories[storyId];
           const isExpired = now - new Date(story.created_at).getTime() > twentyFourHours;
           
-          if (!isExpired && story.user_id !== this.user?.id) {
-            const hasUnseen = !localStorage.getItem('story_viewed_' + storyId + '_' + this.user?.id);
+          if (!isExpired && story.user_id !== self.user?.id) {
+            const hasUnseen = !localStorage.getItem('story_viewed_' + storyId + '_' + (self.user ? self.user.id : ''));
             
             const item = document.createElement('div');
             item.className = 'story-item';
-            item.onclick = () => this.viewStory(storyId);
+            item.onclick = function() { self.viewStory(storyId); };
             
             const avatarContent = story.image 
               ? '<img src="' + story.image + '" alt="' + story.username + '">'
-              : '<span>' + (story.avatar || story.username[0].toUpperCase()) + '</span>';
+              : '<span>' + (story.avatar || story.username.charAt(0).toUpperCase()) + '</span>';
             
             item.innerHTML = '<div class="story-avatar' + (hasUnseen ? ' has-story' : '') + '">' +
               '<div class="story-avatar-inner">' + avatarContent + '</div>' +
@@ -1954,7 +1965,8 @@
       },
       
       // Abrir crear historia
-      openCreateStory() {
+      openCreateStory: function() {
+        const self = this;
         const body = document.getElementById('story-modal-body');
         document.getElementById('story-modal-title').textContent = 'Crear Historia';
         
@@ -1963,33 +1975,35 @@
           '<div class="story-char-count" id="char-count">0/500</div>' +
           '<div class="story-image-preview" id="story-image-preview"></div>' +
           '<label class="story-image-upload">' +
-          '<span>Añadir imagen</span>' +
+          '<i class="fas fa-image"></i><span>Añadir imagen</span>' +
           '<input type="file" id="story-image" accept="image/*" onchange="app.previewStoryImage(event)">' +
           '</label>' +
-          '<button class="btn" onclick="app.publishStory()">Publicar Historia</button>' +
+          '<button class="btn" onclick="app.publishStory()"><i class="fas fa-paper-plane"></i>Publicar Historia</button>' +
           '</div>';
         
         const textarea = document.getElementById('story-text');
         const charCount = document.getElementById('char-count');
-        textarea.addEventListener('input', () => {
+        
+        textarea.addEventListener('input', function() {
           const count = textarea.value.length;
           charCount.textContent = count + '/500';
           charCount.classList.toggle('warning', count > 400);
         });
         
         document.getElementById('story-modal').classList.add('show');
+        
         if (window.innerWidth < 768) {
           this.toggleSidebar();
         }
       },
       
       // Preview imagen
-      previewStoryImage(event) {
+      previewStoryImage: function(event) {
         const file = event.target.files[0];
         if (!file) return;
         
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = function(e) {
           document.getElementById('story-image-preview').innerHTML = 
             '<img src="' + e.target.result + '" alt="Preview">';
         };
@@ -1997,10 +2011,12 @@
       },
       
       // Publicar historia
-      async publishStory() {
-        const text = document.getElementById('story-text')?.value.trim();
+      publishStory: async function() {
+        const textEl = document.getElementById('story-text');
         const imageInput = document.getElementById('story-image');
-        const imageFile = imageInput?.files[0];
+        
+        const text = textEl ? textEl.value.trim() : '';
+        const imageFile = imageInput ? imageInput.files[0] : null;
         
         if (!text && !imageFile) {
           this.toast('Escribe algo o añade una imagen', 'warning');
@@ -2015,9 +2031,9 @@
         if (imageFile) {
           this.toast('Subiendo imagen...', 'warning');
           const fileName = 'stories/' + this.user.id + '_' + Date.now() + '_' + imageFile.name;
-          const { error } = await this.uploadToStorage(fileName, imageFile);
+          const result = await this.uploadToStorage(fileName, imageFile);
           
-          if (error) {
+          if (result.error) {
             this.toast('Error al subir imagen', 'error');
             return;
           }
@@ -2051,7 +2067,7 @@
       },
       
       // Ver historia
-      viewStory(storyId) {
+      viewStory: function(storyId) {
         const story = this.stories[storyId];
         if (!story) {
           this.toast('Historia no encontrada', 'error');
@@ -2059,7 +2075,7 @@
         }
         
         // Mark as viewed
-        localStorage.setItem('story_viewed_' + storyId + '_' + this.user?.id, 'true');
+        localStorage.setItem('story_viewed_' + storyId + '_' + (this.user ? this.user.id : ''), 'true');
         
         const body = document.getElementById('story-modal-body');
         document.getElementById('story-modal-title').textContent = 'Historia';
@@ -2073,40 +2089,41 @@
         const avatarContent = story.avatar && !story.avatar.startsWith('http')
           ? '<span>' + story.avatar + '</span>'
           : (story.avatar ? '<img src="' + story.avatar + '" alt="' + story.username + '">' 
-          : '<span>' + story.username[0].toUpperCase() + '</span>');
+          : '<span>' + story.username.charAt(0).toUpperCase() + '</span>');
         
         body.innerHTML = '<div class="story-view">' +
           '<div class="story-view-avatar">' +
           '<div class="story-view-avatar-inner">' + avatarContent + '</div>' +
           '</div>' +
-          '<div class="story-view-name">' + this.escape(story.username) + '</div>' +
+          '<div class="story-view-name">' + this.escapeHtml(story.username) + '</div>' +
           '<div class="story-view-time">' + timeAgo + '</div>' +
           (story.image ? '<img src="' + story.image + '" class="story-view-image" onclick="app.viewImg(\'' + story.image + '\')">' : '') +
-          (story.text ? '<div class="story-view-text">' + this.escape(story.text) + '</div>' : '') +
+          (story.text ? '<div class="story-view-text">' + this.escapeHtml(story.text) + '</div>' : '') +
           '<div class="story-view-actions">' +
-          '<button class="story-action-btn secondary" onclick="app.closeStoryModal()">Cerrar</button>' +
+          '<button class="story-action-btn secondary" onclick="app.closeStoryModal()"><i class="fas fa-times"></i>Cerrar</button>' +
           '</div>' +
           '</div>';
         
         document.getElementById('story-modal').classList.add('show');
       },
       
-      closeStoryModal() {
+      closeStoryModal: function() {
         document.getElementById('story-modal').classList.remove('show');
       },
       
       // ===== SETTINGS =====
       
-      openSettings() {
+      openSettings: function() {
         document.getElementById('theme-toggle').classList.toggle('active', this.dark);
         document.getElementById('sound-toggle').classList.toggle('active', this.sound);
         document.getElementById('settings-modal').classList.add('show');
+        
         if (window.innerWidth < 768) {
           this.toggleSidebar();
         }
       },
       
-      closeSettings() {
+      closeSettings: function() {
         document.getElementById('settings-modal').classList.remove('show');
       }
     };
